@@ -1,12 +1,14 @@
+import './globals.css';
+
 export const metadata = {
-  title: 'Caixa de Memórias Digital - Villa do Conde',
-  description: 'Plataforma de estimulação cognitiva e memória afetiva para idosos',
+  title: 'Caixa de Memorias Digital - Villa do Conde',
+  description: 'Plataforma de estimulacao cognitiva e memoria afetiva para idosos',
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
-      <body className="min-h-screen bg-villa-light">
+      <body className="min-h-screen bg-[#F8F5F0]">
         {children}
       </body>
     </html>
