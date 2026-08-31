@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-villa-light text-villa-dark;
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  }
+}
+
+@layer components {
+  .btn-idoso {
+    @apply px-8 py-6 rounded-2xl font-bold text-idoso-lg shadow-lg 
+           transition-all duration-300 transform hover:scale-105 
+           active:scale-95 flex items-center justify-center gap-4
+           min-h-[120px] min-w-[200px];
+  }
+  
+  .btn-idoso-primary {
+    @apply btn-idoso bg-villa-primary text-white hover:bg-villa-dark;
+  }
+  
+  .btn-idoso-secondary {
+    @apply btn-idoso bg-villa-secondary text-white hover:bg-red-600;
+  }
+  
+  .btn-idoso-accent {
+    @apply btn-idoso bg-villa-accent text-villa-dark hover:bg-orange-500;
+  }
+  
+  .btn-idoso-success {
+    @apply btn-idoso bg-villa-success text-white hover:bg-teal-700;
+  }
+  
+  .card-idoso {
+    @apply bg-white rounded-3xl shadow-xl p-8 border-4 border-transparent
+           hover:border-villa-primary transition-all duration-300;
+  }
+  
+  .texto-alto-contraste {
+    @apply text-gray-900 font-semibold;
+  }
+  
+  .fundo-alto-contraste {
+    @apply bg-white border-2 border-gray-900;
+  }
+}

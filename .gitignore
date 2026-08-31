@@ -1,0 +1,21 @@
+# Dependencias (sao instaladas automaticamente)
+backend/node_modules/
+frontend/node_modules/
+
+# Banco de dados local (nao enviar, cada um cria o seu)
+backend/databae/*.db 
+
+# Arquivos de ambiente (contem senhas)
+backend/.env 
+frontend/.env.local 
+
+# Uploads de usuarios
+assets/
+
+# Logs
+*.log 
+npm-debug.log* 
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
