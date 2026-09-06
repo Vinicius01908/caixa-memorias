@@ -1,0 +1,159 @@
+%PDF-1.4
+%âãÏÓ
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+2 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+3 0 obj
+<< /Type /Pages /Kids [7 0 R 8 0 R 9 0 R] /Count 3 >>
+endobj
+4 0 obj
+<< /Length 1899 >>
+stream
+0.969 0.961 0.941 rg 0 0 595.28 841.89 re f
+0.160 0.360 0.540 rg 0 691.89 595.28 150 re f
+0.160 0.620 0.560 rg 0 677.89 595.28 14 re f
+BT /F2 29 Tf 1.000 1.000 1.000 rg 1 0 0 1 46 764.89 Tm (Caixa de Memórias) Tj ET
+BT /F1 15 Tf 0.920 0.960 0.970 rg 1 0 0 1 46 735.89 Tm (Funcionalidades do projeto) Tj ET
+0.160 0.620 0.560 rg 46 555.89 74 74 re f
+BT /F2 28 Tf 1.000 1.000 1.000 rg 1 0 0 1 65 581.89 Tm (CM) Tj ET
+BT /F2 18 Tf 0.150 0.270 0.330 rg 1 0 0 1 142 607.89 Tm (Villa do Conde) Tj ET
+BT /F1 12 Tf 0.350 0.420 0.440 rg 1 0 0 1 142 583.89 Tm (Residencial Sênior) Tj ET
+BT /F1 12 Tf 0.150 0.270 0.330 rg 1 0 0 1 46 494.89 Tm (Este documento apresenta os recursos identificados no código do projeto Caixa de) Tj ET
+BT /F1 12 Tf 0.150 0.270 0.330 rg 1 0 0 1 46 475.89 Tm (Memórias. A solução apoia o cuidado centrado no morador por meio de recordações,) Tj ET
+BT /F1 12 Tf 0.150 0.270 0.330 rg 1 0 0 1 46 456.89 Tm (comunicação familiar e acompanhamento de sessões.) Tj ET
+BT /F2 17 Tf 0.160 0.620 0.560 rg 1 0 0 1 46 430.89 Tm (Visão geral) Tj ET
+0.780 0.830 0.840 RG 0.7 w 46 420.89 m 549.28 420.89 l S
+BT /F1 10.8 Tf 0.150 0.270 0.330 rg 1 0 0 1 46 401.89 Tm (A aplicação reúne uma interface web para cuidadores e familiares, perfis individuais de) Tj ET
+BT /F1 10.8 Tf 0.150 0.270 0.330 rg 1 0 0 1 46 385.89 Tm (moradores e uma API com persistência em SQLite. A interface atual também usa armazenamento) Tj ET
+BT /F1 10.8 Tf 0.150 0.270 0.330 rg 1 0 0 1 46 369.89 Tm (local do navegador para a experiência demonstrativa.) Tj ET
+0.910 0.950 0.940 rg 46 115 503.28 73 re f
+BT /F2 12 Tf 0.160 0.620 0.560 rg 1 0 0 1 64 160 Tm (Públicos atendidos) Tj ET
+BT /F1 10.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 64 138 Tm (Cuidadores e equipe assistencial  |  Familiares  |  Moradores \(uso mediado\)) Tj ET
+BT /F1 9 Tf 0.350 0.420 0.440 rg 1 0 0 1 46 70 Tm (Documento gerado em 04 de setembro de 2026.) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Length 3854 >>
+stream
+BT /F2 17 Tf 0.160 0.360 0.540 rg 1 0 0 1 46 795.89 Tm (Funcionalidades para o cuidado e a memória) Tj ET
+0.780 0.830 0.840 RG 0.7 w 46 785.89 m 549.28 785.89 l S
+0.160 0.360 0.540 rg 46 761.89 5 35 re f
+BT /F2 11.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 784.89 Tm (Perfis de moradores) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 765.89 Tm (Cadastro, edição e remoção de moradores. O perfil reúne nome, idade, quarto e diagnóstico, além de) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 751.89 Tm (permitir consultar a galeria de memórias vinculada.) Tj ET
+0.160 0.360 0.540 rg 46 720.89 5 35 re f
+BT /F2 11.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 743.89 Tm (Galeria multimídia) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 724.89 Tm (Registro e apresentação de fotos, áudios, músicas e vídeos. Cada item pode conter título, descrição) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 710.89 Tm (e identificação de quem o enviou. A equipe pode adicionar vários arquivos de uma vez e excluir) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 696.89 Tm (anexos.) Tj ET
+0.160 0.360 0.540 rg 46 665.89 5 35 re f
+BT /F2 11.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 688.89 Tm (Modo terapêutico) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 669.89 Tm (Exibição em tela dedicada de fotos e áudios com navegação entre memórias, favorecendo sessões de) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 655.89 Tm (reminiscência conduzidas pelo cuidador.) Tj ET
+0.160 0.360 0.540 rg 46 624.89 5 35 re f
+BT /F2 11.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 647.89 Tm (Cine-Memória) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 628.89 Tm (Modo de exibição de vídeos em tela dedicada, com seletor de cenas e legenda baseada na descrição do) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 614.89 Tm (registro.) Tj ET
+0.160 0.620 0.560 rg 46 583.89 5 35 re f
+BT /F2 11.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 606.89 Tm (Telemetria clínica - TEA) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 587.89 Tm (Registro de sessões com memória ou tema utilizado, responsável, nível de engajamento, reação) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 573.89 Tm (observada e anotações. O sistema mantém histórico por morador e calcula a Taxa de Engajamento) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 559.89 Tm (Afetivo \(TEA\).) Tj ET
+0.910 0.360 0.460 rg 46 528.89 5 35 re f
+BT /F2 11.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 551.89 Tm (Acessibilidade na tela inicial) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 532.89 Tm (Alternância de alto contraste para melhorar a legibilidade da tela de seleção de moradores.) Tj ET
+BT /F2 17 Tf 0.910 0.360 0.460 rg 1 0 0 1 46 506.89 Tm (Funcionalidades para familiares) Tj ET
+0.780 0.830 0.840 RG 0.7 w 46 496.89 m 549.28 496.89 l S
+0.160 0.360 0.540 rg 46 472.89 5 35 re f
+BT /F2 11.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 495.89 Tm (Portal da Família) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 476.89 Tm (Área vinculada ao morador correspondente, na qual familiares podem enviar mensagens afetivas em) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 462.89 Tm (texto, áudio, foto ou vídeo. O envio aceita anexo e apresenta confirmação ao usuário.) Tj ET
+0.160 0.360 0.540 rg 46 431.89 5 35 re f
+BT /F2 11.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 454.89 Tm (Contas e vínculos) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 435.89 Tm (O cuidador pode criar a conta de um familiar e associá-la a um morador. O login diferencia os) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 421.89 Tm (perfis de cuidador e família e direciona cada pessoa à área adequada.) Tj ET
+0.820 0.850 0.850 RG 0.7 w 46 32 m 549.28 32 l S
+BT /F1 8.5 Tf 0.350 0.420 0.440 rg 1 0 0 1 46 19 Tm (Caixa de Memórias - Villa do Conde) Tj ET
+BT /F1 8.5 Tf 0.350 0.420 0.440 rg 1 0 0 1 501.28 19 Tm (Página 2) Tj ET
+endstream
+endobj
+6 0 obj
+<< /Length 4223 >>
+stream
+BT /F2 17 Tf 0.160 0.360 0.540 rg 1 0 0 1 46 795.89 Tm (Gestão, acompanhamento e serviços de backend) Tj ET
+0.780 0.830 0.840 RG 0.7 w 46 785.89 m 549.28 785.89 l S
+0.160 0.360 0.540 rg 46 761.89 5 35 re f
+BT /F2 11.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 784.89 Tm (Painel do cuidador) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 765.89 Tm (Reúne abas para anexar memórias, registrar telemetria, administrar arquivos, cadastrar moradores,) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 751.89 Tm (cadastrar familiares e gerenciar perfis. Também permite encerrar a sessão.) Tj ET
+0.160 0.360 0.540 rg 46 720.89 5 35 re f
+BT /F2 11.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 743.89 Tm (Fluxo de aprovação) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 724.89 Tm (A API prevê que memórias e mensagens recebidas tenham status pendente e sejam aprovadas pela equipe) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 710.89 Tm (antes de se tornarem disponíveis.) Tj ET
+0.160 0.360 0.540 rg 46 679.89 5 35 re f
+BT /F2 11.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 702.89 Tm (Indicadores de gestão) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 683.89 Tm (O endpoint de dashboard consolida total de moradores ativos, memórias ativas, interações dos) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 669.89 Tm (últimos 30 dias, itens pendentes, engajamento por morador, categorias e últimas interações.) Tj ET
+0.160 0.360 0.540 rg 46 638.89 5 35 re f
+BT /F2 11.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 661.89 Tm (Histórico de interações) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 642.89 Tm (A API registra reproduções de memórias e interações de cuidado, incluindo reação observada, nível) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 628.89 Tm (de engajamento, duração e observações.) Tj ET
+0.160 0.360 0.540 rg 46 597.89 5 35 re f
+BT /F2 11.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 620.89 Tm (Filtros e consulta de memórias) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 601.89 Tm (Os serviços permitem listar memórias por morador, categoria, tipo de mídia e status, além de) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 587.89 Tm (recuperar os anexos de uma memória específica.) Tj ET
+0.160 0.620 0.560 rg 46 556.89 5 35 re f
+BT /F2 11.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 579.89 Tm (Segurança e operação) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 560.89 Tm (O backend disponibiliza autenticação por token, cabeçalhos de segurança, CORS, logs de requisição,) Tj ET
+BT /F1 10 Tf 0.150 0.270 0.330 rg 1 0 0 1 61 546.89 Tm (limite para payloads e rota de verificação de saúde do serviço.) Tj ET
+BT /F2 17 Tf 0.160 0.620 0.560 rg 1 0 0 1 46 520.89 Tm (Arquitetura identificada) Tj ET
+0.780 0.830 0.840 RG 0.7 w 46 510.89 m 549.28 510.89 l S
+BT /F1 10.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 46 491.89 Tm (Frontend em Next.js/React com estilos CSS e Tailwind disponível no projeto. Backend em) Tj ET
+BT /F1 10.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 46 475.89 Tm (Node.js/Express, com banco de dados SQLite e rotas para autenticação, moradores, memórias,) Tj ET
+BT /F1 10.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 46 459.89 Tm (interações, familiares, mensagens e dashboard.) Tj ET
+BT /F2 17 Tf 0.910 0.360 0.460 rg 1 0 0 1 46 436.89 Tm (Observação de escopo) Tj ET
+0.780 0.830 0.840 RG 0.7 w 46 426.89 m 549.28 426.89 l S
+BT /F1 10.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 46 407.89 Tm (Algumas telas da interface demonstrativa persistem dados no localStorage do navegador. Em) Tj ET
+BT /F1 10.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 46 391.89 Tm (paralelo, o repositório já contém API e esquema de banco para centralizar dados, aprovações e) Tj ET
+BT /F1 10.5 Tf 0.150 0.270 0.330 rg 1 0 0 1 46 375.89 Tm (indicadores em um ambiente integrado.) Tj ET
+0.940 0.940 0.910 rg 46 120 503.28 58 re f
+BT /F2 11 Tf 0.450 0.390 0.180 rg 1 0 0 1 62 151 Tm (Resumo) Tj ET
+BT /F1 10 Tf 0.350 0.320 0.200 rg 1 0 0 1 62 132 Tm (Uma plataforma para preservar histórias, aproximar famílias e apoiar sessões de cuidado.) Tj ET
+0.820 0.850 0.850 RG 0.7 w 46 32 m 549.28 32 l S
+BT /F1 8.5 Tf 0.350 0.420 0.440 rg 1 0 0 1 46 19 Tm (Caixa de Memórias - Villa do Conde) Tj ET
+BT /F1 8.5 Tf 0.350 0.420 0.440 rg 1 0 0 1 501.28 19 Tm (Página 3) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 3 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 4 0 R >>
+endobj
+8 0 obj
+<< /Type /Page /Parent 3 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 5 0 R >>
+endobj
+9 0 obj
+<< /Type /Page /Parent 3 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 6 0 R >>
+endobj
+10 0 obj
+<< /Type /Catalog /Pages 3 0 R >>
+endobj
+xref
+0 11
+0000000000 65535 f 
+0000000015 00000 n 
+0000000112 00000 n 
+0000000214 00000 n 
+0000000283 00000 n 
+0000002234 00000 n 
+0000006140 00000 n 
+0000010415 00000 n 
+0000010557 00000 n 
+0000010699 00000 n 
+0000010841 00000 n 
+trailer
+<< /Size 11 /Root 10 0 R >>
+startxref
+10891
+%%EOF
