@@ -2,194 +2,189 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { supabase } from "../lib/supabase";
 
 export default function Home() {
-  const router = useRouter();
   const [idosos, setIdosos] = useState([]);
-  const [altoContraste, setAltoContraste] = useState(false);
-  
-  // Estado para controlar o Modal de Seleção do Morador
-  const [modalAberto, setModalAberto] = useState(false);
-  const [filtroSelecionado, setFiltroSelecionado] = useState("");
-  const [tituloFiltro, setTituloFiltro] = useState("");
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState("");
 
   useEffect(() => {
-    // 1. Lista padrão de moradores
-    const idososPadrao = [
-      { id: 1, nome_completo: "Jose Antonio Pereira", idade: 83, quarto: "101A" },
-      { id: 2, nome_completo: "Maria Helena Souza", idade: 80, quarto: "102B" },
-      { id: 3, nome_completo: "Antonio Carlos Lima", idade: 87, quarto: "103A" },
-      { id: 4, nome_completo: "Dona Raimunda Oliveira", idade: 86, quarto: "104C" },
-    ];
-
-    // 2. Lê os moradores cadastrados no localStorage
-    const cadastrados = JSON.parse(localStorage.getItem("idosos_cadastrados") || "[]");
-    setIdosos([...cadastrados, ...idososPadrao]);
+    carregarMoradores();
   }, []);
 
-  // Abre a janela para escolher o morador com base no botão clicado
-  const handleAbrirSelecao = (tipoFiltro, nomeExibicao) => {
-    setFiltroSelecionado(tipoFiltro);
-    setTituloFiltro(nomeExibicao);
-    setModalAberto(true);
-  };
+  async function carregarMoradores() {
+    setCarregando(true);
+    setErro("");
 
-  // Redireciona para o idoso e aplica o filtro correspondente na URL
-  const handleSelecionarIdosoFiltro = (idosoId) => {
-    setModalAberto(false);
-    router.push(`/idoso/${idosoId}?filtro=${filtroSelecionado}`);
-  };
+    try {
+      console.log("🔄 Buscando lista completa de moradores no Supabase...");
+
+      // Traz TODOS os moradores ordenados pelo ID sem limitação
+      const { data, error } = await supabase
+        .from("idosos")
+        .select("*")
+        .order("id", { ascending: true });
+
+      if (error) {
+        console.error("❌ Erro ao buscar idosos:", error);
+        setErro("Erro ao carregar moradores: " + error.message);
+      } else {
+        console.log(`✅ ${data?.length || 0} moradores encontrados:`, data);
+        setIdosos(data || []);
+      }
+    } catch (err) {
+      console.error("💥 Exceção ao buscar moradores:", err);
+      setErro("Falha de conexão ao carregar moradores.");
+    } finally {
+      setCarregando(false);
+    }
+  }
 
   return (
-    <div style={{ backgroundColor: altoContraste ? "#000" : "#F8F5F0", color: altoContraste ? "#FFF" : "#000", minHeight: "100vh" }}>
-      
-      {/* Barra Superior */}
-      <header style={{ backgroundColor: altoContraste ? "#111" : "#2A5D8A", padding: "16px 32px", display: "flex", justifyContent: "space-between", alignItems: "center", color: "white" }}>
-        <h1 style={{ fontSize: "24px", fontWeight: "bold", margin: 0 }}>Caixa de Memórias</h1>
-        <button
-          onClick={() => setAltoContraste(!altoContraste)}
-          style={{ padding: "8px 16px", backgroundColor: altoContraste ? "#FFFF00" : "rgba(255,255,255,0.2)", color: altoContraste ? "#000" : "white", border: "none", borderRadius: "8px", fontWeight: "bold", cursor: "pointer" }}
-        >
-          {altoContraste ? "Alto Contraste: ON" : "Alto Contraste"}
-        </button>
-      </header>
-
-      <main style={{ maxWidth: "1200px", margin: "0 auto", padding: "32px 16px", textAlign: "center" }}>
+    <div style={{ backgroundColor: "#F8F5F0", minHeight: "100vh", padding: "32px 16px" }}>
+      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
         
-        {/* Escolha do Morador em Cards */}
-        <h2 style={{ fontSize: "28px", color: altoContraste ? "#FFF" : "#264653", marginBottom: "24px", fontWeight: "bold" }}>
-          Escolha um morador:
-        </h2>
+        {/* CABEÇALHO COM FACHADA E BOTÕES */}
+        <div style={{ backgroundColor: "white", padding: "32px", borderRadius: "20px", boxShadow: "0 6px 20px rgba(0,0,0,0.06)", marginBottom: "32px", overflow: "hidden" }}>
+          <div style={{ width: "100%", height: "200px", position: "relative", marginBottom: "24px", borderRadius: "12px", overflow: "hidden", backgroundColor: "#EAEAEA" }}>
+            <Image
+              src="/fachada.png"
+              alt="Fachada do Residencial Senior"
+              fill
+              priority
+              sizes="(max-width: 1100px) 100vw, 1100px"
+              style={{ objectFit: "cover" }}
+            />
+          </div>
 
-        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "20px", marginBottom: "40px" }}>
-          {idosos.map((idoso) => (
-            <Link key={idoso.id} href={`/idoso/${idoso.id}`} style={{ textDecoration: "none" }}>
-              <div
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px" }}>
+            <div>
+              <h1 style={{ fontSize: "32px", fontWeight: "bold", color: "#264653", margin: 0 }}>Caixa de Memórias</h1>
+              <p style={{ color: "#666", marginTop: "6px", fontSize: "16px" }}>Selecione um morador para visualizar seu perfil e memórias afetuosas</p>
+            </div>
+            <div style={{ display: "flex", gap: "12px", alignItems: "center", flexWrap: "wrap" }}>
+              <Link
+                href="/cuidador"
+                id="btn-voltar-cuidador"
                 style={{
-                  backgroundColor: altoContraste ? "#222" : "white",
-                  border: altoContraste ? "2px solid #FFF" : "none",
-                  borderRadius: "16px",
-                  padding: "24px",
-                  width: "200px",
-                  boxShadow: "0 6px 18px rgba(0,0,0,0.06)",
-                  cursor: "pointer",
-                  textAlign: "center",
+                  padding: "14px 24px",
+                  backgroundColor: "#2A5D8A",
+                  color: "white",
+                  borderRadius: "10px",
+                  textDecoration: "none",
+                  fontWeight: "bold",
+                  fontSize: "16px",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  boxShadow: "0 4px 12px rgba(42, 93, 138, 0.2)",
                 }}
               >
-                <div style={{ width: "64px", height: "64px", borderRadius: "50%", border: "2px solid #2A5D8A", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px auto", fontSize: "28px" }}>
-                  👤
-                </div>
-                <h3 style={{ fontSize: "18px", color: altoContraste ? "#FFF" : "#264653", margin: "0 0 8px 0", fontWeight: "bold" }}>
-                  {idoso.nome_completo}
-                </h3>
-                <p style={{ margin: "0 0 4px 0", color: "#666", fontSize: "14px" }}>
-                  {idoso.idade} anos
-                </p>
-                <p style={{ margin: 0, color: "#E85D75", fontWeight: "bold", fontSize: "14px" }}>
-                  Quarto {idoso.quarto}
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        {/* Escolha por Tipo de Conteúdo */}
-        <p style={{ color: "#666", fontWeight: "bold", marginBottom: "16px", fontSize: "14px" }}>
-          Ou escolha por tipo de conteúdo:
-        </p>
-
-        <div style={{ display: "flex", justifyContent: "center", gap: "16px", flexWrap: "wrap", marginBottom: "32px" }}>
-          
-          <button
-            onClick={() => handleAbrirSelecao("foto", "Fotos")}
-            style={{ backgroundColor: "#2A5D8A", color: "white", padding: "16px 24px", borderRadius: "12px", width: "160px", textAlign: "center", fontWeight: "bold", border: "none", cursor: "pointer", fontSize: "16px", boxShadow: "0 4px 10px rgba(0,0,0,0.1)" }}
-          >
-            📷<br />Fotos
-          </button>
-
-          <button
-            onClick={() => handleAbrirSelecao("musica", "Músicas e Áudios")}
-            style={{ backgroundColor: "#E85D75", color: "white", padding: "16px 24px", borderRadius: "12px", width: "160px", textAlign: "center", fontWeight: "bold", border: "none", cursor: "pointer", fontSize: "16px", boxShadow: "0 4px 10px rgba(0,0,0,0.1)" }}
-          >
-            🎵<br />Músicas
-          </button>
-
-          <button
-            onClick={() => handleAbrirSelecao("familia", "Registros da Família")}
-            style={{ backgroundColor: "#F4A261", color: "white", padding: "16px 24px", borderRadius: "12px", width: "160px", textAlign: "center", fontWeight: "bold", border: "none", cursor: "pointer", fontSize: "16px", boxShadow: "0 4px 10px rgba(0,0,0,0.1)" }}
-          >
-            👨‍👩‍👧<br />Família
-          </button>
-
-          <button
-            onClick={() => handleAbrirSelecao("linha_tempo", "Linha do Tempo")}
-            style={{ backgroundColor: "#2A9D8F", color: "white", padding: "16px 24px", borderRadius: "12px", width: "160px", textAlign: "center", fontWeight: "bold", border: "none", cursor: "pointer", fontSize: "16px", boxShadow: "0 4px 10px rgba(0,0,0,0.1)" }}
-          >
-            ⏰<br />Linha do Tempo
-          </button>
-
-        </div>
-
-        {/* Links de Login */}
-        <div style={{ display: "flex", justifyContent: "center", gap: "16px", marginTop: "40px" }}>
-          <Link href="/login" style={{ padding: "14px 28px", backgroundColor: "#264653", color: "white", borderRadius: "10px", textDecoration: "none", fontWeight: "bold", fontSize: "16px" }}>
-            Área do Cuidador
-          </Link>
-          <Link href="/login" style={{ padding: "14px 28px", backgroundColor: "#E9C46A", color: "#264653", borderRadius: "10px", textDecoration: "none", fontWeight: "bold", fontSize: "16px" }}>
-            Portal da Família
-          </Link>
-        </div>
-
-      </main>
-
-      {/* MODAL DE SELEÇÃO DO IDOSO ANTES DE EXIBIR O CONTEÚDO */}
-      {modalAberto && (
-        <div style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.6)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000, padding: "20px" }}>
-          <div style={{ backgroundColor: "white", borderRadius: "20px", padding: "32px", maxWidth: "500px", width: "100%", boxShadow: "0 10px 30px rgba(0,0,0,0.2)", textAlign: "left" }}>
-            <h2 style={{ fontSize: "22px", color: "#264653", marginTop: 0, marginBottom: "8px" }}>
-              Ver {tituloFiltro}
-            </h2>
-            <p style={{ color: "#666", marginBottom: "20px", fontSize: "14px" }}>
-              Selecione de qual morador você deseja visualizar este conteúdo:
-            </p>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px", maxHeight: "300px", overflowY: "auto", marginBottom: "20px" }}>
-              {idosos.map((i) => (
-                <button
-                  key={i.id}
-                  onClick={() => handleSelecionarIdosoFiltro(i.id)}
-                  style={{
-                    padding: "14px",
-                    borderRadius: "10px",
-                    border: "1px solid #ddd",
-                    backgroundColor: "#F8F5F0",
-                    color: "#264653",
-                    fontWeight: "bold",
-                    fontSize: "16px",
-                    textAlign: "left",
-                    cursor: "pointer",
-                    display: "flex",
-                    justify: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <span>👤 {i.nome_completo}</span>
-                  <span style={{ fontSize: "12px", color: "#2A5D8A" }}>Quarto {i.quarto} ➔</span>
-                </button>
-              ))}
+                ← Voltar à Área do Cuidador
+              </Link>
+              <Link
+                href="/login"
+                id="btn-login"
+                style={{
+                  padding: "14px 24px",
+                  backgroundColor: "#2A9D8F",
+                  color: "white",
+                  borderRadius: "10px",
+                  textDecoration: "none",
+                  fontWeight: "bold",
+                  fontSize: "16px",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  boxShadow: "0 4px 12px rgba(42, 157, 143, 0.2)",
+                }}
+              >
+                🔑 Acesso ao Sistema (Login)
+              </Link>
             </div>
-
-            <button
-              onClick={() => setModalAberto(false)}
-              style={{ width: "100%", padding: "12px", backgroundColor: "#E85D75", color: "white", border: "none", borderRadius: "8px", fontWeight: "bold", cursor: "pointer" }}
-            >
-              Cancelar
-            </button>
           </div>
         </div>
-      )}
 
+        {/* MENSAGEM DE ERRO OU CARREGAMENTO */}
+        {carregando && (
+          <div style={{ textAlign: "center", padding: "48px", fontSize: "20px", color: "#264653" }}>
+            ⏳ Carregando moradores...
+          </div>
+        )}
+
+        {erro && (
+          <div style={{ padding: "16px", backgroundColor: "#FFD1D1", border: "1px solid #E85D75", borderRadius: "12px", color: "#900", marginBottom: "24px", fontWeight: "bold", textAlign: "center" }}>
+            ⚠️ {erro}
+          </div>
+        )}
+
+        {/* LISTA DE MORADORES */}
+        {!carregando && !erro && (
+          <div>
+            <h2 style={{ fontSize: "24px", color: "#264653", marginBottom: "20px", fontWeight: "bold" }}>
+              Moradores Cadastrados ({idosos.length})
+            </h2>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "24px" }}>
+              {idosos.map((morador) => (
+                <div
+                  key={morador.id}
+                  style={{
+                    backgroundColor: "white",
+                    borderRadius: "16px",
+                    padding: "24px",
+                    boxShadow: "0 4px 14px rgba(0,0,0,0.05)",
+                    borderTop: "6px solid #2A5D8A",
+                    display: "flex",
+                    flexDirection: "column",
+                    justify: "space-between",
+                    alignItems: "center",
+                    textAlign: "center",
+                  }}
+                >
+                  {/* FOTO DO MORADOR (COM AVATAR PADRÃO DE FALLBACK) */}
+                  <div style={{ width: "110px", height: "110px", borderRadius: "50%", overflow: "hidden", marginBottom: "16px", backgroundColor: "#E0E0E0", border: "3px solid #2A5D8A", position: "relative" }}>
+                    <img
+                      src={morador.foto_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(morador.nome_completo)}&background=2A5D8A&color=fff&size=128`}
+                      alt={morador.nome_completo}
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                  </div>
+
+                  <h3 style={{ fontSize: "20px", color: "#264653", margin: "0 0 8px 0", fontWeight: "bold" }}>
+                    {morador.nome_completo}
+                  </h3>
+
+                  <p style={{ color: "#666", fontSize: "14px", margin: "0 0 16px 0" }}>
+                    {morador.idade ? `${morador.idade} anos` : 'Idade não informada'} • Quarto {morador.quarto || 'N/A'}
+                  </p>
+
+                  <Link
+                    href={`/idoso/${morador.id}`}
+                    style={{
+                      width: "100%",
+                      padding: "12px",
+                      backgroundColor: "#2A5D8A",
+                      color: "white",
+                      borderRadius: "8px",
+                      textDecoration: "none",
+                      fontWeight: "bold",
+                      fontSize: "15px",
+                      display: "block",
+                      boxSizing: "border-box",
+                    }}
+                  >
+                    📖 Abrir Caixa de Memórias
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+      </div>
     </div>
   );
 }

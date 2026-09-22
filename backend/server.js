@@ -18,6 +18,8 @@ app.use(express.urlencoded({ extended: true }));
 // Arquivos estáticos
 app.use('/assets', express.static(path.join(__dirname, '../assets')));
 
+const { inicializarTelegramBot, pararTelegramBot } = require('./telegramBot');
+
 // Rotas
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/idosos', require('./routes/idosos'));
@@ -26,6 +28,7 @@ app.use('/api/interacoes', require('./routes/interacoes'));
 app.use('/api/familiares', require('./routes/familiares'));
 app.use('/api/mensagens', require('./routes/mensagens'));
 app.use('/api/dashboard', require('./routes/dashboard'));
+app.use('/api/telegram', require('./routes/telegram'));
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -50,7 +53,18 @@ app.get('/', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
   console.log(`📁 Banco: ${process.env.DATABASE_PATH || './database/caixa_memorias.db'}`);
+  inicializarTelegramBot();
 });
+
+const finalizar = async () => {
+  await pararTelegramBot();
+  server.close(() => {
+    process.exit(0);
+  });
+};
+
+process.on('SIGINT', finalizar);
+process.on('SIGTERM', finalizar);

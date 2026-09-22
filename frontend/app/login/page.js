@@ -2,118 +2,171 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { supabase } from "../../lib/supabase";
 
-function TelaLogin() {
+export default function Login() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [tipoUsuario, setTipoUsuario] = useState("cuidador");
+  const [tipo, setTipo] = useState("cuidador"); // "cuidador" ou "familiar"
+  const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    if (carregando) return;
+
     setErro("");
+    setCarregando(true);
 
-    const emailLimpo = email.trim().toLowerCase();
+    const emailTratado = email.trim().toLowerCase();
+    const senhaTratada = senha.trim();
 
-    const usuariosSalvos = JSON.parse(localStorage.getItem("usuarios_sistema") || "[]");
+    try {
+      console.log(`🔍 Buscando usuário: ${emailTratado}...`);
 
-    const usuariosPadrao = [
-      { email: "cuidador@villa.com", senha: "123", tipo: "cuidador", idoso_id: null, nome: "Equipe de Enfermagem / Cuidador" },
-      { email: "familiar1@villa.com", senha: "123", tipo: "familiar", idoso_id: 1, nome: "João Antonio (Família do José)" },
-      { email: "familiar2@villa.com", senha: "123", tipo: "familiar", idoso_id: 2, nome: "Família da Maria Helena" },
-      { email: "familiar3@villa.com", senha: "123", tipo: "familiar", idoso_id: 3, nome: "Família do Antonio Carlos" },
-      { email: "familiar4@villa.com", senha: "123", tipo: "familiar", idoso_id: 4, nome: "Família da Dona Raimunda" },
-    ];
+      // Consulta no Supabase ignorando maiúsculas/minúsculas no e-mail
+      const { data: usuarios, error } = await supabase
+        .from("usuarios_sistema")
+        .select("id, email, senha, tipo, idoso_id")
+        .ilike("email", emailTratado)
+        .eq("senha", senhaTratada);
 
-    const todosUsuarios = [...usuariosSalvos, ...usuariosPadrao];
-
-    const usuarioEncontrado = todosUsuarios.find(
-      (u) => u.email.trim().toLowerCase() === emailLimpo && u.senha === senha && u.tipo === tipoUsuario
-    );
-
-    if (usuarioEncontrado) {
-      localStorage.setItem("usuario_logado", JSON.stringify(usuarioEncontrado));
-
-      if (usuarioEncontrado.tipo === "cuidador") {
-        router.push("/cuidador");
-      } else {
-        const idosoIdTarget = String(usuarioEncontrado.idoso_id) || "1";
-        router.push(`/idoso/${idosoIdTarget}`);
+      if (error) {
+        console.error("❌ Erro de conexão Supabase:", error);
+        setErro("Erro de conexão com o banco de dados: " + error.message);
+        setCarregando(false);
+        return;
       }
-    } else {
-      setErro("E-mail, senha ou perfil incorretos. Certifique-se de selecionar 'Cuidador' ou 'Família' corretamente.");
+
+      if (!usuarios || usuarios.length === 0) {
+        setErro("E-mail ou senha incorretos. Verifique os dados digitados.");
+        setCarregando(false);
+        return;
+      }
+
+      // Validação flexível do tipo de perfil
+      const usuarioEncontrado = usuarios.find((u) => {
+        if (!u.tipo) return false;
+        const tipoDb = u.tipo.toLowerCase();
+
+        if (tipo === "cuidador") {
+          // Permite qualquer perfil gestor, cuidador ou admin no banco
+          return (
+            tipoDb.includes("cuidador") ||
+            tipoDb.includes("admin") ||
+            tipoDb.includes("equipe")
+          );
+        } else {
+          return tipoDb.includes("fam");
+        }
+      });
+
+      if (!usuarioEncontrado) {
+        setErro(
+          `E-mail e senha corretos, mas este usuário não está cadastrado como '${
+            tipo === "cuidador" ? "Cuidador / Admin" : "Família"
+          }'.`
+        );
+        setCarregando(false);
+        return;
+      }
+
+      // Prepara objeto de sessão
+      const sessaoUsuario = {
+        id: usuarioEncontrado.id,
+        email: usuarioEncontrado.email,
+        tipo: usuarioEncontrado.tipo.toLowerCase(),
+        idoso_id: usuarioEncontrado.idoso_id || null,
+      };
+
+      // Salva sessão local no navegador
+      localStorage.setItem("usuario_logado", JSON.stringify(sessaoUsuario));
+      console.log("✅ Login bem-sucedido:", sessaoUsuario);
+
+      // Lógica de Redirecionamento por Nível de Permissão
+      if (sessaoUsuario.tipo.includes("admin")) {
+        router.push("/admin");
+      } else if (sessaoUsuario.tipo.includes("cuidador") || sessaoUsuario.tipo.includes("equipe")) {
+        router.push("/cuidador");
+      } else if (sessaoUsuario.idoso_id) {
+        router.push(`/idoso/${sessaoUsuario.idoso_id}`);
+      } else {
+        router.push("/");
+      }
+
+    } catch (err) {
+      console.error("💥 Exceção no login:", err);
+      setErro("Falha ao realizar login: " + err.message);
+    } finally {
+      setCarregando(false);
     }
   };
 
   return (
-    <div
-      style={{
-        backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/fachada.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justify: "center",
-        padding: "24px",
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: "rgba(255, 255, 255, 0.95)",
-          backdropFilter: "blur(5px)",
-          borderRadius: "24px",
-          padding: "40px",
-          width: "100%",
-          maxWidth: "450px",
-          boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
-        }}
-      >
-        <h1 style={{ fontSize: "32px", color: "#264653", textAlign: "center", marginBottom: "4px", fontWeight: "bold" }}>
-          Caixa de Memórias
-        </h1>
-        <p style={{ color: "#2A5D8A", textAlign: "center", marginBottom: "28px", fontWeight: "bold", fontSize: "14px" }}>
-          Villa do Conde • Residencial Sênior
-        </p>
+    <div style={{ backgroundColor: "#F8F5F0", minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center", padding: "24px" }}>
+      <div style={{ backgroundColor: "white", padding: "32px", borderRadius: "20px", boxShadow: "0 10px 30px rgba(0,0,0,0.08)", width: "100%", maxWidth: "420px", overflow: "hidden" }}>
+        
+        {/* Imagem da Fachada */}
+        <div style={{ width: "100%", height: "180px", position: "relative", marginBottom: "20px", borderRadius: "12px", overflow: "hidden", backgroundColor: "#EAEAEA" }}>
+          <Image
+            src="/fachada.png"
+            alt="Fachada do Residencial Senior"
+            fill
+            priority
+            sizes="(max-width: 420px) 100vw, 420px"
+            style={{ objectFit: "cover" }}
+          />
+        </div>
+
+        <div style={{ textAlign: "center", marginBottom: "24px" }}>
+          <h1 style={{ fontSize: "28px", fontWeight: "bold", color: "#264653", margin: 0 }}>Caixa de Memórias</h1>
+          <p style={{ color: "#666", marginTop: "6px", fontSize: "14px" }}>Acesse seu painel do sistema</p>
+        </div>
 
         {erro && (
-          <div style={{ padding: "12px", backgroundColor: "rgba(232, 93, 117, 0.15)", border: "1px solid #E85D75", color: "#E85D75", borderRadius: "8px", marginBottom: "20px", fontSize: "14px" }}>
-            {erro}
+          <div style={{ padding: "12px 16px", backgroundColor: "#FFD1D1", border: "1px solid #E85D75", borderRadius: "10px", color: "#900", marginBottom: "20px", fontSize: "14px", fontWeight: "bold" }}>
+            ⚠️ {erro}
           </div>
         )}
 
-        <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+        <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+          
           <div>
-            <label style={{ display: "block", fontWeight: "bold", color: "#264653", marginBottom: "8px" }}>Tipo de Perfil</label>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+            <label style={{ display: "block", fontWeight: "bold", color: "#264653", marginBottom: "8px", fontSize: "14px" }}>Perfil de Acesso</label>
+            <div style={{ display: "flex", gap: "10px" }}>
               <button
                 type="button"
-                onClick={() => setTipoUsuario("cuidador")}
+                onClick={() => setTipo("cuidador")}
                 style={{
+                  flex: 1,
                   padding: "12px",
-                  borderRadius: "8px",
-                  border: tipoUsuario === "cuidador" ? "2px solid #2A5D8A" : "1px solid #ccc",
-                  backgroundColor: tipoUsuario === "cuidador" ? "rgba(42, 93, 138, 0.1)" : "#fff",
-                  color: tipoUsuario === "cuidador" ? "#2A5D8A" : "#666",
+                  borderRadius: "10px",
+                  border: "2px solid #2A5D8A",
+                  backgroundColor: tipo === "cuidador" ? "#2A5D8A" : "transparent",
+                  color: tipo === "cuidador" ? "white" : "#2A5D8A",
                   fontWeight: "bold",
                   cursor: "pointer",
+                  fontSize: "13px"
                 }}
               >
-                🩺 Cuidador
+                👨‍⚕️ Cuidador / Admin
               </button>
               <button
                 type="button"
-                onClick={() => setTipoUsuario("familiar")}
+                onClick={() => setTipo("familiar")}
                 style={{
+                  flex: 1,
                   padding: "12px",
-                  borderRadius: "8px",
-                  border: tipoUsuario === "familiar" ? "2px solid #2A5D8A" : "1px solid #ccc",
-                  backgroundColor: tipoUsuario === "familiar" ? "rgba(42, 93, 138, 0.1)" : "#fff",
-                  color: tipoUsuario === "familiar" ? "#2A5D8A" : "#666",
+                  borderRadius: "10px",
+                  border: "2px solid #F4A261",
+                  backgroundColor: tipo === "familiar" ? "#F4A261" : "transparent",
+                  color: tipo === "familiar" ? "white" : "#F4A261",
                   fontWeight: "bold",
                   cursor: "pointer",
+                  fontSize: "13px"
                 }}
               >
                 👨‍👩‍👧 Família
@@ -122,44 +175,55 @@ function TelaLogin() {
           </div>
 
           <div>
-            <label style={{ display: "block", fontWeight: "bold", color: "#264653", marginBottom: "8px" }}>E-mail</label>
+            <label style={{ display: "block", fontWeight: "bold", color: "#264653", marginBottom: "6px", fontSize: "14px" }}>E-mail</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Digite seu e-mail"
-              style={{ width: "100%", padding: "14px", borderRadius: "8px", border: "1px solid #ccc", boxSizing: "border-box" }}
+              placeholder="seu.email@exemplo.com"
+              style={{ width: "100%", padding: "12px", borderRadius: "8px", border: "1px solid #ccc", boxSizing: "border-box" }}
               required
             />
           </div>
 
           <div>
-            <label style={{ display: "block", fontWeight: "bold", color: "#264653", marginBottom: "8px" }}>Senha</label>
+            <label style={{ display: "block", fontWeight: "bold", color: "#264653", marginBottom: "6px", fontSize: "14px" }}>Senha</label>
             <input
               type="password"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
-              placeholder="Digite sua senha"
-              style={{ width: "100%", padding: "14px", borderRadius: "8px", border: "1px solid #ccc", boxSizing: "border-box" }}
+              placeholder="••••••••"
+              style={{ width: "100%", padding: "12px", borderRadius: "8px", border: "1px solid #ccc", boxSizing: "border-box" }}
               required
             />
           </div>
 
           <button
             type="submit"
-            style={{ padding: "16px", backgroundColor: "#2A5D8A", color: "white", border: "none", borderRadius: "8px", fontSize: "18px", fontWeight: "bold", cursor: "pointer", marginTop: "10px" }}
+            disabled={carregando}
+            style={{
+              padding: "16px",
+              backgroundColor: carregando ? "#aaa" : "#2A9D8F",
+              color: "white",
+              border: "none",
+              borderRadius: "10px",
+              fontWeight: "bold",
+              fontSize: "16px",
+              cursor: carregando ? "not-allowed" : "pointer",
+              marginTop: "8px",
+            }}
           >
-            Entrar no Sistema
+            {carregando ? "Autenticando..." : "Entrar no Sistema"}
           </button>
         </form>
 
-        <div style={{ marginTop: "24px", paddingTop: "20px", borderTop: "1px solid #eee", fontSize: "12px", color: "#666" }}>
-          <strong>Credenciais do Cuidador:</strong><br />
-          • E-mail: <code>cuidador@villa.com</code> | Senha: <code>123</code>
+        <div style={{ textAlign: "center", marginTop: "24px" }}>
+          <Link href="/" style={{ color: "#2A5D8A", textDecoration: "none", fontSize: "14px", fontWeight: "bold" }}>
+            ← Voltar para a Página Inicial
+          </Link>
         </div>
+
       </div>
     </div>
   );
 }
-
-export default TelaLogin;
