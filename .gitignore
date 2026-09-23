@@ -1,21 +1,29 @@
-# Dependencias (sao instaladas automaticamente)
-backend/node_modules/
-frontend/node_modules/
+# Dependencias
+node_modules/
+*/node_modules/
 
-# Banco de dados local (nao enviar, cada um cria o seu)
-backend/databae/*.db 
+# Next.js build
+.next/
+frontend/.next/
+out/
+build/
 
-# Arquivos de ambiente (contem senhas)
-backend/.env 
-frontend/.env.local 
+# Banco de dados local
+backend/database/*.db
+backend/databae/*.db
 
-# Uploads de usuarios
+# Arquivos de ambiente e segredos
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env.local
+
+# Uploads
 assets/
 
-# Logs
-*.log 
-npm-debug.log* 
-
-# Sistema operacional
+# Logs e sistema
+*.log
+npm-debug.log*
 .DS_Store
 Thumbs.db
