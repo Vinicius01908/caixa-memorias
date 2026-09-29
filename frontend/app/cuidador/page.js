@@ -574,11 +574,44 @@ export default function DashboardCuidador() {
           </div>
         )}
 
+        {/* CARD DE DESTAQUE: RELATÓRIO DE EVOLUÇÃO CLÍNICA */}
+        <div style={{ backgroundColor: "#ffffff", borderRadius: "16px", padding: "20px 24px", marginBottom: "24px", boxShadow: "0 4px 16px rgba(42, 157, 143, 0.12)", borderLeft: "8px solid #2A9D8F", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px" }}>
+          <div>
+            <h3 style={{ margin: "0 0 6px 0", color: "#264653", fontSize: "18px", fontWeight: "bold", display: "flex", alignItems: "center", gap: "8px" }}>
+              <span>📊</span> Relatório de Evolução Clínica
+            </h3>
+            <p style={{ margin: 0, color: "#555", fontSize: "14px" }}>
+              Consulte a evolução das sessões de estímulo cognitivo e afetivo com base nas avaliações clínicas realizadas.
+            </p>
+          </div>
+          <Link
+            href="/cuidador/relatorio-evolucao"
+            style={{
+              padding: "12px 22px",
+              backgroundColor: "#2A9D8F",
+              color: "#ffffff",
+              borderRadius: "10px",
+              fontWeight: "bold",
+              textDecoration: "none",
+              fontSize: "15px",
+              boxShadow: "0 4px 12px rgba(42, 157, 143, 0.3)",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
+            📊 Acessar Relatório de Evolução →
+          </Link>
+        </div>
+
         {/* NAVEGAÇÃO POR ABAS */}
         <div style={{ display: "flex", gap: "12px", marginBottom: "24px", flexWrap: "wrap" }}>
           <button type="button" onClick={() => setAbaAtiva("gerenciar")} style={{ padding: "14px 20px", borderRadius: "12px", border: "none", backgroundColor: abaAtiva === "gerenciar" ? "#E85D75" : "#fff", color: abaAtiva === "gerenciar" ? "#fff" : "#E85D75", fontWeight: "bold", cursor: "pointer" }}>
             📋 Gerenciar Perfis
           </button>
+          <Link href="/cuidador/relatorio-evolucao" style={{ padding: "14px 20px", borderRadius: "12px", border: "2px solid #2A9D8F", backgroundColor: "#E6F4F1", color: "#2A9D8F", fontWeight: "bold", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}>
+            📊 Relatório de Evolução Clínica
+          </Link>
           <button type="button" onClick={() => { setAbaAtiva("aprovacoesTelegram"); carregarSubmissoesTelegram(); }} style={{ padding: "14px 20px", borderRadius: "12px", border: "none", backgroundColor: abaAtiva === "aprovacoesTelegram" ? "#0088cc" : "#fff", color: abaAtiva === "aprovacoesTelegram" ? "#fff" : "#0088cc", fontWeight: "bold", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px" }}>
             <span>📲 Aprovações Telegram</span>
             {submissoesTelegram.length > 0 && (
@@ -635,6 +668,9 @@ export default function DashboardCuidador() {
                         <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
                           <Link href={`/idoso/${idoso.id}`} style={{ padding: "8px 14px", backgroundColor: "#2A5D8A", color: "white", textDecoration: "none", borderRadius: "8px", fontWeight: "bold", fontSize: "14px" }}>
                             Perfil
+                          </Link>
+                          <Link href={`/cuidador/relatorio-evolucao?idosoId=${idoso.id}`} style={{ padding: "8px 14px", backgroundColor: "#2A9D8F", color: "white", textDecoration: "none", borderRadius: "8px", fontWeight: "bold", fontSize: "14px", display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                            📊 Relatório
                           </Link>
                           <button type="button" onClick={() => handleCopiarLinkTelegram(idoso)} style={{ padding: "8px 14px", backgroundColor: "#0088cc", color: "white", border: "none", borderRadius: "8px", fontWeight: "bold", cursor: "pointer", fontSize: "14px" }}>
                             📲 Link Telegram
@@ -971,6 +1007,35 @@ export default function DashboardCuidador() {
                   💾 Gravar Telemetria
                 </button>
               </form>
+
+              {/* ATALHO PARA O RELATÓRIO DE EVOLUÇÃO */}
+              {formTEA.idoso_id && (
+                <div style={{ marginTop: "20px", paddingTop: "16px", borderTop: "1px dashed #ccc", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
+                  <div>
+                    <strong style={{ color: "#264653", display: "block" }}>📊 Acompanhamento Longitudinal</strong>
+                    <span style={{ fontSize: "13px", color: "#666" }}>
+                      Consulte a evolução completa das sessões gravadas para este morador.
+                    </span>
+                  </div>
+                  <Link
+                    href={`/cuidador/relatorio-evolucao?idosoId=${formTEA.idoso_id}`}
+                    style={{
+                      padding: "10px 18px",
+                      backgroundColor: "#264653",
+                      color: "#ffffff",
+                      borderRadius: "8px",
+                      fontWeight: "bold",
+                      textDecoration: "none",
+                      fontSize: "14px",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
+                    }}
+                  >
+                    📊 Abrir Relatório de Evolução Clínica →
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         )}
