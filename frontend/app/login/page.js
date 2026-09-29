@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import Image from "next/image";
 import { supabase } from "../../lib/supabase";
 
@@ -217,11 +216,7 @@ export default function Login() {
           </button>
         </form>
 
-        <div style={{ textAlign: "center", marginTop: "24px" }}>
-          <Link href="/" style={{ color: "#2A5D8A", textDecoration: "none", fontSize: "14px", fontWeight: "bold" }}>
-            ← Voltar para a Página Inicial
-          </Link>
-        </div>
+
 
       </div>
     </div>
