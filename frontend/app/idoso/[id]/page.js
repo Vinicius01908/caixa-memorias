@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "../../../lib/supabase";
+import CameraPreview from "../../../components/CameraPreview";
 
 export default function PerfilIdoso() {
   const params = useParams();
@@ -233,6 +234,9 @@ export default function PerfilIdoso() {
                 ✖ Fechar (Sair)
               </button>
             </div>
+
+            {/* PREVIEW DA CÂMERA DO IDOSO */}
+            <CameraPreview />
 
             {/* ÁREA CENTRAL DE EXIBIÇÃO EM ALTA VISIBILIDADE */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", flex: 1, margin: "20px 0", textAlign: "center" }}>
